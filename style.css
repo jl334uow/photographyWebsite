@@ -69,7 +69,7 @@ body{
 
 .portfolio-item-wrapper{
   position: relative;
-  padding: 50px;
+  padding: 30px;
 }
 
 .portfolio-img-background{
@@ -83,14 +83,14 @@ body{
 .img-text-wrapper{
   position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
   text-align: center;
-  padding-left: 100px;
-  padding-right: 100px;
+  font-size: x-large;
 }
 
 .logo-wrapper img{
@@ -106,7 +106,7 @@ body{
 
 .img-text-wrapper:hover .subtitle{
   font-weight: 500;
-  color: lightseagreen;
+  color: whitesmoke;
 }
 
 .img-darken{
