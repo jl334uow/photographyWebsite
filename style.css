@@ -9,6 +9,10 @@ body{
   grid-template-columns: 1fr;
 }
 
+a{
+  text-decoration: none;
+}
+
 /*Nav styles*/
 
 .navigation-wrapper{
@@ -102,6 +106,7 @@ body{
   transition: 1s;
   font-weight: 500;
   color: transparent;
+  
 }
 
 .img-text-wrapper:hover .subtitle{
