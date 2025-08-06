@@ -13,6 +13,10 @@ a{
   text-decoration: none;
 }
 
+a:visited{
+  color: #000000;
+}
+
 /*Nav styles*/
 
 .navigation-wrapper{
@@ -136,5 +140,5 @@ a{
 }
 
 .profile-content-wrapper{
-  color: lightseagreen;
+  color: black;
 }
