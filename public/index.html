@@ -11,40 +11,30 @@
 <body>
   <div class = "container">
     <!-- Nav wrapper -->
-    <div class = "navigation-wrapper">
+    <nav>
+      <div class = "nav-wrapper">
+        <button class = "menu" id = "menu">
+          ☰
+        </button>
 
-      <div class = "left-side">
-        <div class = "navigation-link-wrapper active-nav-link">
-          <a href = "index.html">Home</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "portrait.html">Portraits</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "event.html">Events</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "travel.html">Travel</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "pricing.html">Pricing</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "contact.html">Contact</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "about.html">About</a>
-        </div>
+        <ul class = "nav-links" id = "nav-links">
+          <li><a href = "index.html">Home</a></li>
+          <li><a href = "portrait.html">Portraits</a></li>
+          <li><a href = "event.html">Events</a></li>
+          <li><a href = "travel.html">Travel</a></li>
+          <li><a href = "pricing.html">Pricing</a></li>
+          <li><a href = "contact.html">Contact</a></li>
+          <li><a href = "about.html">About</a></li>
+        </ul>
+
+        <div class = "right-side">
+          <div class = "bread">
+            <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
+          </div>
       </div>
-
-      <div class = "right-side"
-        <div class = "bread">
-        <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
-        </div>
       </div>
+    </nav>
 
-    </div>
-<!-- _MG_4227 -->
     <!-- Content wrapper -->
     <div class = "content-wrapper">
       <div class = "portfolio-items-wrapper" id = "portfolio-items-wrapper">
@@ -109,6 +99,15 @@
 
   </div> <!--container-->
 </body>
+<!-- Script to control menu button -->
+<script>
+  const hamburger = document.getElementById("menu");
+  const navLinks = document.getElementById("nav-links");
+
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
+</script>
 
 <script>
   const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper')

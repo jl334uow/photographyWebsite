@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     try
     {
         // Retreive list of keys through R2 S3 API
-        console.log(process.env.ACCESS_KEY_ID);
+
         const s3 = new S3Client({
             region: 'auto',
             endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
