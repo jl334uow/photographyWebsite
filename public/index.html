@@ -7,6 +7,7 @@
   <title>JUSTINLUPHOTOGRAPHY</title>
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
   <link rel = "stylesheet" href = "style.css">
+  <link href="/css/lightbox.min.css" rel="stylesheet" />
 </head>
 <body>
   <div class = "container">
@@ -98,6 +99,7 @@
     </div>
 
   </div> <!--container-->
+  <script src="/js/lightbox-plus-jquery.min.js"></script>
 </body>
 <!-- Script to control menu button -->
 <script>
@@ -165,13 +167,20 @@
       const divItemWrapper = document.createElement('div');
       divItemWrapper.className = 'portfolio-item-wrapper';
 
-      const divImgBackground = document.createElement('div');
+      const lightboxLink = document.createElement('a');
+      lightboxLink.className = 'lightbox-link';
+      lightboxLink.href = `${urls[i]['url']}`;
+      lightboxLink.setAttribute('data-lightbox', 'gallery');
+
+      const divImgBackground = document.createElement('img');
       divImgBackground.className = 'portfolio-img-background';
-      divImgBackground.style.backgroundImage = `url(${urls[i]['url']})`;
+      divImgBackground.src = `${urls[i]['url']}`;
       // console.log(`url(${data[i]})`);
 
-      divItemWrapper.appendChild(divImgBackground);
+      divItemWrapper.appendChild(lightboxLink);
+      lightboxLink.appendChild(divImgBackground);
       gallery.appendChild(divItemWrapper)
+      lightbox.init();
     }
 
     curIndex = end;
