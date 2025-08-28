@@ -4,6 +4,8 @@
     "@aws-sdk/s3-request-presigner": "^3.864.0",
     "aws-sdk": "^2.1692.0",
     "dotenv": "^17.2.1",
+    "jquery": "^3.7.1",
+    "lightbox2": "^2.11.5",
     "next": "^15.4.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
