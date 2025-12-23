@@ -13,10 +13,13 @@ TODO:
 - Define requirements for contact page
 - Define requirements for about page
 
-Tech Stack:
+Tech Stack / requirements:
 - HTML, CSS, Nodejs
+    - brew install node
 - Cloudflare R2
 - Vercel
+    - npm install -g vercel
+
 
 Installation / Setup
 1. git clone https://github.com/jl334uow/photographyWebsite.git

@@ -11,36 +11,14 @@
 <body>
   <div class = "container">
     <!-- Nav wrapper -->
-    <div class = "navigation-wrapper">
-
-      <div class = "left-side">
-        <div class = "navigation-link-wrapper">
-          <a href = "index.html">Home</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "portrait.html">Portraits</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "event.html">Events</a>
-        </div>
-        <div class = "navigation-link-wrapper active-nav-link">
-          <a href = "pricing.html">Pricing</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "contact.html">Contact</a>
-        </div>
-        <div class = "navigation-link-wrapper">
-          <a href = "about.html">About</a>
-        </div>
-      </div>
-
-      <div class = "right-side"
-        <div class = "bread">
-        <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
-        </div>
-      </div>
-
-    </div>
+    <div id="nav"></div>
+    <script>
+      fetch("/nav.html")
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("nav").innerHTML = html;
+        });
+    </script>
 
     <!-- Content wrapper -->
     <div class = "content-wrapper">
