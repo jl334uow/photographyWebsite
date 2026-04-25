@@ -1,24 +1,34 @@
 <!-- Nav wrapper -->
-    <nav>
-      <div class = "nav-wrapper">
-        <button class = "menu" id = "menu">
-          ☰
-        </button>
+<nav>
+  <div class = "nav-wrapper">
+    <button class = "menu" id = "menu">
+      ☰
+    </button>
 
-        <ul class = "nav-links" id = "nav-links">
-          <li><a href = "index.html">Home</a></li>
-          <li><a href = "portrait.html">Portraits</a></li>
-          <li><a href = "event.html">Events</a></li>
-          <li><a href = "travel.html">Travel</a></li>
-          <li><a href = "pricing.html">Pricing</a></li>
-          <li><a href = "contact.html">Contact</a></li>
-          <li><a href = "about.html">About</a></li>
-        </ul>
+    <ul class = "nav-links" id = "nav-links">
+      <li><a href = "index.html">Home</a></li>
+      <li><a href = "portrait.html">Portraits</a></li>
+      <li><a href = "event.html">Events</a></li>
+      <li><a href = "travel.html">Travel</a></li>
+      <li><a href = "pricing.html">Pricing</a></li>
+      <li><a href = "contact.html">Contact</a></li>
+      <li><a href = "about.html">About</a></li>
+    </ul>
 
-        <div class = "right-side">
-          <div class = "bread">
-            <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
-          </div>
-        </div>
+    <div class = "right-side">
+      <div class = "bread">
+        <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
       </div>
-    </nav>
+    </div>
+  </div>
+</nav>
+
+<!-- Script to control menu button -->
+<script>
+  const hamburger = document.getElementById("menu");
+  const navLinks = document.getElementById("nav-links");
+
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
+</script>

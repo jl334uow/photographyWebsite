@@ -7,7 +7,8 @@
   <title>JUSTINLUPHOTOGRAPHY</title>
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
   <link rel = "stylesheet" href = "style.css">
-  <link href="/css/lightbox.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.css">
+  <script src="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.min.js"></script>
 </head>
 <body>
   <div class = "container">
@@ -84,17 +85,7 @@
     </div>
 
   </div> <!--container-->
-  <script src="/js/lightbox-plus-jquery.min.js"></script>
 </body>
-<!-- Script to control menu button -->
-<script>
-  const hamburger = document.getElementById("menu");
-  const navLinks = document.getElementById("nav-links");
-
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-</script>
 
 <script>
   const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper')
@@ -131,46 +122,54 @@
     "compressed/IMG_1996.jpg"
   ]
 
-  let photosPerLoad = 3;
+  let photosPerLoad = 9;
   let curIndex = 0;
   let loading = false;
+  let allPhotos = []
 
   async function loadMorePhotos() {
     if(loading) return; /* stop function if loading is already in progress */
-
+    if (curIndex >= allPhotos.length && allPhotos.length > 0) return;
     loading = true;
 
     document.getElementById('loading').style.display = 'block';
 
+    if (allPhotos.length === 0) {
+      const response = await fetch('/api/photographyWebsite');
+      const data = await response.json();
+      allPhotos = Array.from(data.values());
+    }
+
     const gallery = document.getElementById('portfolio-items-wrapper');
-    const end = Math.min(curIndex + photosPerLoad, imagePaths.length);
-    // frontend script
-    const response = await fetch('/api/photographyWebsite');
-    const data = await response.json();
-    const urls = Array.from(data.values());
+    const end = Math.min(curIndex + photosPerLoad, allPhotos.length);
+
     for(let i = curIndex; i < end; i++) {
       const divItemWrapper = document.createElement('div');
       divItemWrapper.className = 'portfolio-item-wrapper';
 
       const lightboxLink = document.createElement('a');
       lightboxLink.className = 'lightbox-link';
-      lightboxLink.href = `${urls[i]['url']}`;
+      lightboxLink.href = `${allPhotos[i]['url']}`;
       lightboxLink.setAttribute('data-lightbox', 'gallery');
 
       const divImgBackground = document.createElement('img');
       divImgBackground.className = 'portfolio-img-background';
-      divImgBackground.src = `${urls[i]['url']}`;
+      divImgBackground.src = `${allPhotos[i]['url']}`;
       // console.log(`url(${data[i]})`);
 
       divItemWrapper.appendChild(lightboxLink);
       lightboxLink.appendChild(divImgBackground);
       gallery.appendChild(divItemWrapper)
-      lightbox.init();
     }
 
     curIndex = end;
 
     document.getElementById('loading').style.display = 'none';
+    if (typeof Lightbox3 !== 'undefined') {
+      Lightbox3.Lightbox.init();
+    } else {
+      console.error('Lightbox3 library not loaded');
+    }
     loading = false;
   }
 
