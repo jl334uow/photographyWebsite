@@ -22,9 +22,56 @@
 
     <!-- Content wrapper -->
     <div class = "content-wrapper">
-
+      <div class = "two-column-wrapper">
+          <div class = "column-image-wrapper">
+            <img src = "/compressed/IMG_8110.jpeg">
+          </div>
+          <div class = "profile-content-wrapper">
+            <p>Whether you’re looking to capture a moment, commission a series, or bring an idea to life—feel free to reach out with a few details below.</p><br>
+            <p>Prefer to keep it simple?</p>
+            <p>Email: lljustinlu@gmail.com</p>
+            <form id="contactForm">
+              <label for="name">Name</label><br>
+              <input type="text" name="name"><br>
+              <label for="email">Email</label><br>
+              <input type="email" name="email"><br>
+              <label for="enquiryType">Type of enquiry</label><br>
+              <select name="enquiryType">
+                <option value="photography">Photography</option>
+                <option value="collaboration">Collaboration</option>
+                <option value="prints">Prints</option>
+                <option value="other">Other</option>
+              </select>
+              <br>
+              <label for="message" size>Message</label><br>
+              <textarea name="message" rows="5" cols="40"></textarea><br>
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+      </div>
     </div>
 
   </div> <!--container-->
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      console.log("Form Data:", data); // Debugging line
+      const res = await fetch("api/resend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert("Thank you for your enquiry :)");
+      } else {
+        alert("Something went wrong :(");
+      }
+    })
+  </script>
 </body>
 </html>

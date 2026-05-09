@@ -27,7 +27,8 @@ Installation / Setup
 2. cd photographyWebsite
 3. npm install
 4. configure .env file
-5. deploy via vercel (vercel dev)
+5. Add any updates from .env file to vercel environment variables
+6. deploy via vercel (vercel dev)
 
 Syncing photos
 
