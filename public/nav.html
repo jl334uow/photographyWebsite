@@ -1,34 +1,17 @@
-<!-- Nav wrapper -->
-<nav>
-  <div class = "nav-wrapper">
-    <button class = "menu" id = "menu">
-      ☰
-    </button>
-
-    <ul class = "nav-links" id = "nav-links">
-      <li><a href = "index.html">Home</a></li>
-      <li><a href = "portrait.html">Portraits</a></li>
-      <li><a href = "event.html">Events</a></li>
-      <li><a href = "travel.html">Travel</a></li>
-      <li><a href = "pricing.html">Pricing</a></li>
-      <li><a href = "contact.html">Contact</a></li>
-      <li><a href = "about.html">About</a></li>
+<nav aria-label="Main navigation">
+  <div class="nav-wrapper">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#gallery">Gallery</a></li>
+      <li><a href="portrait.html">Portraits</a></li>
+      <li><a href="event.html">Events</a></li>
+      <li><a href="travel.html">Travel</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="about.html">About</a></li>
     </ul>
-
-    <div class = "right-side">
-      <div class = "bread">
-        <a href = "index.html">JUSTIN LU PHOTOGRAPHY</a>
-      </div>
+    <div class="right-side">
+      <div class="bread"><a href="index.html">Justin Lu<br>Photography</a></div>
     </div>
   </div>
 </nav>
-
-<!-- Script to control menu button -->
-<script>
-  const hamburger = document.getElementById("menu");
-  const navLinks = document.getElementById("nav-links");
-
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-</script>

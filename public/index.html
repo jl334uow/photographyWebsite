@@ -1,238 +1,145 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-  <title>JUSTINLUPHOTOGRAPHY</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Selected photographs by Justin Lu.">
+  <title>Justin Lu Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
-  <link rel = "stylesheet" href = "style.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.css">
   <script src="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.min.js"></script>
   <script>
-  (function () {
-    const isProduction = 'https://photography-website-five-gamma.vercel.app/'
-    const GRAFANA_ENV = {
-      production: {
+    (function () {
+      const config = {
         url: 'https://faro-collector-prod-au-southeast-1.grafana.net/collect/9cd5ffc4de42c609de61456aff1fcd49',
-        app:{
-          name: "justinluphotography-prod",
-          version: "1.0.0",
-          environment: "production"
+        app: {
+          name: 'justinluphotography-prod',
+          version: '1.0.0',
+          environment: 'production'
         }
-      }
-    };
-
-    const config = isProduction ? GRAFANA_ENV.production : null;
-    
-    var webSdkScript = document.createElement("script");
-
-    // fetch the latest 2.x.x version of the Web-SDK from the CDN
-    webSdkScript.src =
-      "https://unpkg.com/@grafana/faro-web-sdk@2/dist/bundle/faro-web-sdk.iife.js";
-
-    if (config) {
+      };
+      const webSdkScript = document.createElement('script');
+      webSdkScript.src = 'https://unpkg.com/@grafana/faro-web-sdk@2/dist/bundle/faro-web-sdk.iife.js';
       webSdkScript.onload = () => {
         window.GrafanaFaroWebSdk.initializeFaro(config);
-
-
-        // Load instrumentations at the onLoad event of the web-SDK and after the above configuration.
-        // This is important because we need to ensure that the Web-SDK has been loaded and initialized before we add further instruments!
-        var webTracingScript = document.createElement("script");
-
-        // fetch the latest 2.x.x version of the Web Tracing package from the CDN
-        webTracingScript.src =
-          "https://unpkg.com/@grafana/faro-web-tracing@2/dist/bundle/faro-web-tracing.iife.js";
-
-        // Initialize, configure (if necessary) and add the the new instrumentation to the already loaded and configured Web-SDK.
+        const webTracingScript = document.createElement('script');
+        webTracingScript.src = 'https://unpkg.com/@grafana/faro-web-tracing@2/dist/bundle/faro-web-tracing.iife.js';
         webTracingScript.onload = () => {
           window.GrafanaFaroWebSdk.faro.instrumentations.add(
             new window.GrafanaFaroWebTracing.TracingInstrumentation()
           );
         };
-
-        // Append the Web Tracing script script tag to the HTML page
         document.head.appendChild(webTracingScript);
       };
-    }
-
-    // Append the Web-SDK script script tag to the HTML page
-    document.head.appendChild(webSdkScript);
-  })();
-</script>
-
+      document.head.appendChild(webSdkScript);
+    })();
+  </script>
 </head>
-<body>
-  <div class = "container">
-    <!-- Nav wrapper -->
-    <div id="nav"></div>
-    <script>
-      fetch("/nav.html")
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById("nav").innerHTML = html;
-        });
-    </script>
+<body class="home-page">
+  <div id="nav"></div>
+  <script>
+    fetch('/nav.html')
+      .then(response => {
+        if (!response.ok) throw new Error(`Navigation request failed: ${response.status}`);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('nav').innerHTML = html;
+      })
+      .catch(error => console.error('Unable to load navigation:', error));
+  </script>
 
-    <!-- Content wrapper -->
-    <div class = "content-wrapper">
-      <div class = "portfolio-items-wrapper" id = "portfolio-items-wrapper">
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1658.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <a class = "subtitle" href="event.html">
-              Events
-            </a>
-          </div>
-        </div>
-
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1661.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <a class = "subtitle" href="portrait.html">
-              Portraits
-            </a>
-          </div>
-        </div>
-
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1721.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <div class = "subtitle">
-              Editorial
-            </div>
-          </div>
-        </div>
-
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1746.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <a class = "subtitle" href="travel.html">
-              Travel
-            </a>
-          </div>
-        </div>
-
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1797.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <a class = "subtitle" href="about.html">
-              About
-            </a>
-          </div>
-        </div>
-
-        <div class = "portfolio-item-wrapper">
-          <div class = "portfolio-img-background" style = "background-image:url(compressed/IMG_1809.jpg)"></div>
-          <div class = "img-text-wrapper">
-            <a class = "subtitle" href="contact.html">
-              Contact
-            </a>
-          </div>
-        </div>
+  <main>
+    <section class="hero" aria-label="Justin Lu Photography">
+      <div class="hero-copy">
+        <p class="hero-kicker">Photography by Justin Lu</p>
+        <h1>Moments<br>in passing.</h1>
       </div>
-      <div id = "loading" style="display: none;">
-        Loading...
-      </div>
-    </div>
+      <a class="scroll-cue" href="#gallery" aria-label="Scroll to selected photographs">
+        <span>Discover</span>
+        <span class="scroll-arrow" aria-hidden="true">↓</span>
+      </a>
+    </section>
 
-  </div> <!--container-->
+    <section class="gallery-section" id="gallery">
+      <div class="gallery-heading">
+        <p class="eyebrow">A collection of moments</p>
+        <h2>Selected photographs</h2>
+      </div>
+      <div class="portfolio-items-wrapper" id="portfolio-items-wrapper" aria-label="Photograph gallery"></div>
+      <p id="loading" class="loading-status" role="status" style="display: none;">Loading photographs…</p>
+    </section>
+  </main>
+
+  <script type="module">
+    const photosPerLoad = 9;
+    let curIndex = 0;
+    let loading = false;
+    let allPhotos = [];
+    let loadFailed = false;
+
+    async function loadMorePhotos() {
+      if (loading || (curIndex >= allPhotos.length && allPhotos.length > 0)) return;
+      loading = true;
+      const status = document.getElementById('loading');
+      status.textContent = 'Loading photographs…';
+      status.style.display = 'block';
+      loadFailed = false;
+
+      try {
+        if (allPhotos.length === 0) {
+          const response = await fetch('/api/photographyWebsite');
+          if (!response.ok) throw new Error(`Photograph request failed: ${response.status}`);
+          const data = await response.json();
+          allPhotos = Array.from(data.values());
+        }
+
+        const gallery = document.getElementById('portfolio-items-wrapper');
+        const end = Math.min(curIndex + photosPerLoad, allPhotos.length);
+
+        for (let i = curIndex; i < end; i++) {
+          const item = document.createElement('figure');
+          item.className = 'portfolio-item-wrapper';
+          const lightboxLink = document.createElement('a');
+          lightboxLink.className = 'lightbox-link';
+          lightboxLink.href = allPhotos[i].url;
+          lightboxLink.setAttribute('data-lightbox', 'gallery');
+          lightboxLink.setAttribute('aria-label', `Open photograph ${i + 1}`);
+
+          const image = document.createElement('img');
+          image.className = 'portfolio-img-background';
+          image.src = allPhotos[i].url;
+          image.alt = `Photograph ${i + 1}`;
+          image.loading = 'lazy';
+          lightboxLink.appendChild(image);
+          item.appendChild(lightboxLink);
+          gallery.appendChild(item);
+        }
+
+        curIndex = end;
+        if (typeof Lightbox3 !== 'undefined') Lightbox3.Lightbox.init();
+      } catch (error) {
+        console.error('Unable to load photographs:', error);
+        status.textContent = 'Photographs could not be loaded. Scroll to try again.';
+        loadFailed = true;
+      } finally {
+        if (!loadFailed && curIndex >= allPhotos.length) {
+          window.removeEventListener('scroll', handleScroll);
+        }
+        status.style.display = loadFailed ? 'block' : 'none';
+        loading = false;
+      }
+    }
+
+    function handleScroll() {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) loadMorePhotos();
+    }
+
+    loadMorePhotos();
+    window.addEventListener('scroll', handleScroll);
+  </script>
 </body>
-
-<script>
-  const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper')
-
-  portfolioItems.forEach(
-    portfolioItem =>{
-      portfolioItem.addEventListener('mouseover', () => {
-        portfolioItem.childNodes[1].classList.add('img-darken');
-      })
-
-      portfolioItem.addEventListener('mouseout', () => {
-        portfolioItem.childNodes[1].classList.remove('img-darken');
-      })
-    }
-
-  )
-</script>
-
-<script type="module" defer>
-  const imagePaths = [
-    "compressed/IMG_1658.jpg",
-    "compressed/IMG_1661.jpg",
-    "compressed/IMG_1721.jpg",
-    "compressed/IMG_1746.jpg",
-    "compressed/IMG_1809.jpg",
-    "compressed/IMG_1833.jpg",
-    "compressed/IMG_1841.jpg",
-    "compressed/IMG_1851.jpg",
-    "compressed/IMG_1878.jpg",
-    "compressed/IMG_1954.jpg",
-    "compressed/IMG_1964.jpg",
-    "compressed/IMG_1969.jpg",
-    "compressed/IMG_1971.jpg",
-    "compressed/IMG_1996.jpg"
-  ]
-
-  let photosPerLoad = 9;
-  let curIndex = 0;
-  let loading = false;
-  let allPhotos = []
-
-  async function loadMorePhotos() {
-    if(loading) return; /* stop function if loading is already in progress */
-    if (curIndex >= allPhotos.length && allPhotos.length > 0) return;
-    loading = true;
-
-    document.getElementById('loading').style.display = 'block';
-
-    if (allPhotos.length === 0) {
-      const response = await fetch('/api/photographyWebsite');
-      const data = await response.json();
-      allPhotos = Array.from(data.values());
-    }
-
-    const gallery = document.getElementById('portfolio-items-wrapper');
-    const end = Math.min(curIndex + photosPerLoad, allPhotos.length);
-
-    for(let i = curIndex; i < end; i++) {
-      const divItemWrapper = document.createElement('div');
-      divItemWrapper.className = 'portfolio-item-wrapper';
-
-      const lightboxLink = document.createElement('a');
-      lightboxLink.className = 'lightbox-link';
-      lightboxLink.href = `${allPhotos[i]['url']}`;
-      lightboxLink.setAttribute('data-lightbox', 'gallery');
-
-      const divImgBackground = document.createElement('img');
-      divImgBackground.className = 'portfolio-img-background';
-      divImgBackground.src = `${allPhotos[i]['url']}`;
-      // console.log(`url(${data[i]})`);
-
-      divItemWrapper.appendChild(lightboxLink);
-      lightboxLink.appendChild(divImgBackground);
-      gallery.appendChild(divItemWrapper)
-    }
-
-    curIndex = end;
-
-    document.getElementById('loading').style.display = 'none';
-    if (typeof Lightbox3 !== 'undefined') {
-      Lightbox3.Lightbox.init();
-    } else {
-      console.error('Lightbox3 library not loaded');
-    }
-    loading = false;
-  }
-
-  function handleScroll() {
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-      loadMorePhotos();
-    }
-  }
-
-  loadMorePhotos();
-  window.addEventListener('scroll', handleScroll);
-
-</script>
 </html>
