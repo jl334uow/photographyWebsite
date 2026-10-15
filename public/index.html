@@ -58,10 +58,19 @@
         <p class="hero-kicker">Photography by Justin Lu</p>
         <h1>Moments<br>in passing.</h1>
       </div>
-      <a class="scroll-cue" href="#gallery" aria-label="Scroll to selected photographs">
+      <a class="scroll-cue" href="#albums" aria-label="Scroll to photo albums">
         <span>Discover</span>
         <span class="scroll-arrow" aria-hidden="true">↓</span>
       </a>
+    </section>
+
+    <section class="album-section" id="albums">
+      <div class="gallery-heading">
+        <p class="eyebrow">Stories from the road</p>
+        <h2>Photo albums</h2>
+      </div>
+      <div class="album-items-wrapper" id="album-items-wrapper" aria-label="Photo albums"></div>
+      <p id="album-status" class="loading-status" role="status">Loading albums…</p>
     </section>
 
     <section class="gallery-section" id="gallery">
@@ -74,6 +83,7 @@
     </section>
   </main>
 
+  <script type="module" src="/js/albums.js"></script>
   <script type="module">
     const photosPerLoad = 9;
     let curIndex = 0;

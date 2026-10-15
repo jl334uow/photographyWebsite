@@ -107,16 +107,57 @@ a:visited{
   scroll-margin-top: 24px;
 }
 
+.album-section {
+  padding: clamp(48px, 8vw, 112px) clamp(20px, 6vw, 84px);
+  scroll-margin-top: 24px;
+}
+
 .gallery-heading {
   margin: 0 auto clamp(36px, 6vw, 76px);
   max-width: 1200px;
 }
 
+.gallery-heading h1,
 .gallery-heading h2 {
   margin: 0;
   font-size: clamp(32px, 5vw, 66px);
   font-weight: 400;
   letter-spacing: -0.05em;
+}
+
+.album-items-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: clamp(20px, 3vw, 42px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.album-item {
+  display: block;
+  color: var(--ink);
+}
+
+.album-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #e3e0da;
+  transition: filter 220ms ease;
+}
+
+.album-item:hover img,
+.album-item:focus-visible img {
+  filter: brightness(0.88);
+}
+
+.album-item h3 {
+  margin: 12px 0 0;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .portfolio-items-wrapper {
@@ -358,6 +399,10 @@ nav {
   }
 
   .gallery-section {
+    padding: 48px 16px;
+  }
+
+  .album-section {
     padding: 48px 16px;
   }
 

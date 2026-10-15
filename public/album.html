@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Photo album by Justin Lu.">
+  <title>Photo Album | Justin Lu Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.css">
+  <script src="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.min.js"></script>
+</head>
+<body>
+  <div id="nav"></div>
+  <script>
+    fetch('/nav.html')
+      .then(response => {
+        if (!response.ok) throw new Error(`Navigation request failed: ${response.status}`);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('nav').innerHTML = html;
+      })
+      .catch(error => console.error('Unable to load navigation:', error));
+  </script>
+
+  <main>
+    <section class="gallery-section album-page-section">
+      <a class="album-back-link" href="/index.html#albums">← All albums</a>
+      <div class="gallery-heading">
+        <p class="eyebrow">Justin Lu Photography</p>
+        <h1 id="album-title">Photo album</h1>
+      </div>
+      <div class="portfolio-items-wrapper" id="album-photos" aria-label="Album photographs"></div>
+      <p id="album-loading" class="loading-status" role="status">Loading photographs…</p>
+    </section>
+  </main>
+
+  <script type="module">
+    const album = new URLSearchParams(window.location.search).get('album');
+    const title = document.getElementById('album-title');
+    const status = document.getElementById('album-loading');
+    const gallery = document.getElementById('album-photos');
+
+    if (!album || !/^[a-zA-Z0-9_-]+$/.test(album)) {
+      status.textContent = 'This album could not be found.';
+    } else {
+      title.textContent = album.replace(/[-_]/g, ' ').toUpperCase();
+      document.title = `${title.textContent} | Justin Lu Photography`;
+
+      try {
+        const response = await fetch(`/api/photographyWebsite?album=${encodeURIComponent(album)}`);
+        if (!response.ok) throw new Error(`Photograph request failed: ${response.status}`);
+        const photos = await response.json();
+
+        photos.forEach((photo, index) => {
+          const item = document.createElement('figure');
+          item.className = 'portfolio-item-wrapper';
+
+          const link = document.createElement('a');
+          link.className = 'lightbox-link';
+          link.href = photo.url;
+          link.setAttribute('data-lightbox', 'album');
+          link.setAttribute('aria-label', `Open photograph ${index + 1}`);
+
+          const image = document.createElement('img');
+          image.className = 'portfolio-img-background';
+          image.src = photo.url;
+          image.alt = `${title.textContent}, photograph ${index + 1}`;
+          image.loading = 'lazy';
+
+          link.appendChild(image);
+          item.appendChild(link);
+          gallery.appendChild(item);
+        });
+
+        status.textContent = photos.length ? '' : 'No photographs found in this album.';
+        if (typeof Lightbox3 !== 'undefined') Lightbox3.Lightbox.init();
+      } catch (error) {
+        console.error('Unable to load album photographs:', error);
+        status.textContent = 'Photographs could not be loaded.';
+      }
+    }
+  </script>
+</body>
+</html>

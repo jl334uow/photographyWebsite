@@ -1,30 +1,40 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
-  <title>Events</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Event photo albums by Justin Lu.">
+  <title>Event Albums | Justin Lu Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
-  <link rel = "stylesheet" href = "style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class = "container">
-    <!-- Nav wrapper -->
-      <div id="nav"></div>
-    <script>
-      fetch("/nav.html")
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById("nav").innerHTML = html;
-        });
-    </script>
+  <div id="nav"></div>
+  <script>
+    fetch('/nav.html')
+      .then(response => {
+        if (!response.ok) throw new Error(`Navigation request failed: ${response.status}`);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('nav').innerHTML = html;
+      })
+      .catch(error => console.error('Unable to load navigation:', error));
+  </script>
 
-    <!-- Content wrapper -->
-    <div class = "content-wrapper">
+  <main>
+    <section class="album-section" id="albums">
+      <div class="gallery-heading">
+        <p class="eyebrow">Gathered moments</p>
+        <h2>Event albums</h2>
+      </div>
+      <div class="album-items-wrapper" id="album-items-wrapper" data-category="events" aria-label="Event photo albums"></div>
+      <p id="album-status" class="loading-status" role="status">Loading albums…</p>
+    </section>
+  </main>
 
-    </div>
-
-  </div> <!--container-->
+  <script type="module" src="/js/albums.js"></script>
 </body>
 </html>
