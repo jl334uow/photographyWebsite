@@ -32,6 +32,27 @@ export default async function handler(req, res) {
             return;
         }
 
+        async function loadAlbumMetadata() {
+            try {
+                const manifest = await s3.send(new GetObjectCommand({
+                    Bucket: bucket,
+                    Key: 'albums.json'
+                }));
+                const albumMetadata = JSON.parse(await manifest.Body.transformToString());
+
+                if (!albumMetadata || Array.isArray(albumMetadata) || typeof albumMetadata !== 'object') {
+                    throw new Error('albums.json must be an object keyed by album folder name');
+                }
+
+                return albumMetadata;
+            } catch (error) {
+                if (error.name !== 'NoSuchKey' && error.$metadata?.httpStatusCode !== 404) {
+                    throw error;
+                }
+                return {};
+            }
+        }
+
         async function listImages(prefix = '', directOnly = false) {
             const images = [];
             let continuationToken;
@@ -66,23 +87,7 @@ export default async function handler(req, res) {
         }
 
         if (wantsAlbums) {
-            let albumMetadata = {};
-
-            try {
-                const manifest = await s3.send(new GetObjectCommand({
-                    Bucket: bucket,
-                    Key: 'albums.json'
-                }));
-                albumMetadata = JSON.parse(await manifest.Body.transformToString());
-
-                if (!albumMetadata || Array.isArray(albumMetadata) || typeof albumMetadata !== 'object') {
-                    throw new Error('albums.json must be an object keyed by album folder name');
-                }
-            } catch (error) {
-                if (error.name !== 'NoSuchKey' && error.$metadata?.httpStatusCode !== 404) {
-                    throw error;
-                }
-            }
+            const albumMetadata = await loadAlbumMetadata();
 
             const prefixes = new Set();
             let continuationToken;
@@ -108,7 +113,13 @@ export default async function handler(req, res) {
                 const slug = prefix.slice(0, -1);
                 const entry = albumMetadata[slug];
                 const metadata = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : {};
-                const cover = await signImage(imageKeys[0]);
+                const coverKey = typeof metadata.cover === 'string' && metadata.cover.trim()
+                    ? `${slug}/${metadata.cover.trim()}`
+                    : imageKeys[0];
+                if (!imageKeys.includes(coverKey)) {
+                    throw new Error(`Cover photo "${metadata.cover}" was not found in album "${slug}"`);
+                }
+                const cover = await signImage(coverKey);
                 return {
                     slug,
                     title: typeof metadata.title === 'string' && metadata.title.trim()
@@ -131,9 +142,31 @@ export default async function handler(req, res) {
                 return;
             }
 
-            const images = await listImages(`${album}/`);
-            const signedImages = await Promise.all(images.map(signImage));
-            res.status(200).json(signedImages);
+            const [images, albumMetadata] = await Promise.all([
+                listImages(`${album}/`),
+                loadAlbumMetadata()
+            ]);
+            const entry = albumMetadata[album];
+            const metadata = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : {};
+            const coverKey = typeof metadata.cover === 'string' && metadata.cover.trim()
+                ? `${album}/${metadata.cover.trim()}`
+                : images[0];
+            if (coverKey && !images.includes(coverKey)) {
+                throw new Error(`Cover photo "${metadata.cover}" was not found in album "${album}"`);
+            }
+
+            const [cover, photos] = await Promise.all([
+                coverKey ? signImage(coverKey) : null,
+                Promise.all(images.map(signImage))
+            ]);
+            res.status(200).json({
+                title: typeof metadata.title === 'string' && metadata.title.trim()
+                    ? metadata.title.trim()
+                    : album.replace(/[-_]/g, ' ').toUpperCase(),
+                coverUrl: cover?.url || '',
+                description: typeof metadata.description === 'string' ? metadata.description.trim() : '',
+                photos
+            });
             return;
         }
 

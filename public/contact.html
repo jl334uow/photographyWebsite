@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
   <link rel = "stylesheet" href = "style.css">
 </head>
-<body>
+<body class="contact-page">
   <div class = "container">
     <!-- Nav wrapper -->
     <div id="nav"></div>
@@ -24,54 +24,83 @@
     <div class = "content-wrapper">
       <div class = "two-column-wrapper">
           <div class = "column-image-wrapper">
-            <img src = "/compressed/DSC08980.jpg">
+            <img src = "/compressed/DSC08980.jpg" alt="A photograph by Justin Lu">
           </div>
           <div class = "profile-content-wrapper">
-            <p>Whether you’re looking to capture a moment, commission a series, or bring an idea to life—feel free to reach out with a few details below.</p><br>
-            <p>Prefer to keep it simple?</p>
-            <p>Email: lljustinlu@gmail.com</p>
-            <form id="contactForm">
-              <label for="name">Name</label><br>
-              <input type="text" name="name"><br>
-              <label for="email">Email</label><br>
-              <input type="email" name="email"><br>
-              <label for="enquiryType">Type of enquiry</label><br>
-              <select name="enquiryType">
+            <p class="eyebrow">Get in touch</p>
+            <h1>Let’s make something meaningful.</h1>
+            <p>Whether you’re looking to capture a moment, commission a series, or bring an idea to life, feel free to reach out with a few details below.</p>
+            <p>Prefer to keep it simple? Email <a href="mailto:lljustinlu@gmail.com">lljustinlu@gmail.com</a>.</p>
+            <form id="contactForm" class="contact-form">
+              <div class="contact-field">
+                <label for="name">Name</label>
+                <input id="name" type="text" name="name" autocomplete="name" required>
+              </div>
+              <div class="contact-field">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" autocomplete="email" required>
+              </div>
+              <div class="contact-field contact-field--wide">
+                <label for="enquiryType">Type of enquiry</label>
+                <select id="enquiryType" name="enquiryType">
                 <option value="photography">Photography</option>
                 <option value="collaboration">Collaboration</option>
                 <option value="prints">Prints</option>
                 <option value="other">Other</option>
-              </select>
-              <br>
-              <label for="message" size>Message</label><br>
-              <textarea name="message" rows="5" cols="40"></textarea><br>
-              <input type="submit" value="Submit">
+                </select>
+              </div>
+              <div class="contact-field">
+                <label for="mobileNumber">Mobile number (optional)</label>
+                <input id="mobileNumber" type="tel" name="mobileNumber" autocomplete="tel">
+              </div>
+              <div class="contact-field">
+                <label for="eventDate">Event date (optional)</label>
+                <input id="eventDate" type="date" name="eventDate">
+              </div>
+              <div class="contact-field">
+                <label for="eventLocation">Event location (optional)</label>
+                <input id="eventLocation" type="text" name="eventLocation" autocomplete="off">
+              </div>
+              <div class="contact-field">
+                <label for="guestNumber">Guest number (optional)</label>
+                <input id="guestNumber" type="number" name="guestNumber" min="1" step="1">
+              </div>
+              <div class="contact-field contact-field--wide">
+                <label for="eventTheme">Theme of event (optional)</label>
+                <input id="eventTheme" type="text" name="eventTheme">
+              </div>
+              <div class="contact-field contact-field--wide">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+              <button type="submit">Send enquiry</button>
+              <p class="contact-form-status contact-field--wide" role="status" aria-live="polite"></p>
             </form>
           </div>
       </div>
     </div>
 
   </div> <!--container-->
-  <script>
-    document.getElementById("contactForm").addEventListener("submit", async (e) => {e.preventDefault();
-
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-      console.log("Form Data:", data); // Debugging line
-      const res = await fetch("api/resend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (res.ok) {
-        alert("Thank you for your enquiry :)");
-      } else {
-        alert("Something went wrong :(");
-      }
-    })
-  </script>
+  <script src="/js/contact.js" defer></script>
+  <section class="instagram-section" aria-labelledby="instagram-heading">
+    <div class="instagram-heading">
+      <div>
+        <p class="eyebrow">On Instagram</p>
+        <h2 id="instagram-heading">More moments</h2>
+      </div>
+      <a href="https://www.instagram.com/justinluigi_/" target="_blank" rel="noopener noreferrer">Follow @justinluigi_</a>
+    </div>
+    <div class="instagram-feed-shell">
+      <div class="sk-instagram-feed" data-embed-id="25723425"></div>
+    </div>
+  </section>
+  <script src="https://widgets.sociablekit.com/instagram-feed/widget.js" defer></script>
+  <footer class="site-footer">
+    <p>Justin Lu Photography</p>
+    <nav aria-label="Footer navigation">
+      <a href="/index.html#albums">Gallery</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </footer>
 </body>
 </html>

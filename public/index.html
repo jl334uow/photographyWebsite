@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Selected photographs by Justin Lu.">
+  <meta name="description" content="Photo albums by Justin Lu.">
   <title>Justin Lu Photography</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.css">
-  <script src="https://cdn.jsdelivr.net/npm/lightbox3/dist/lightbox3.min.js"></script>
   <script>
     (function () {
       const config = {
@@ -73,83 +71,86 @@
       <p id="album-status" class="loading-status" role="status">Loading albums…</p>
     </section>
 
-    <section class="gallery-section" id="gallery">
+    <section class="home-contact-section" id="contact">
       <div class="gallery-heading">
-        <p class="eyebrow">A collection of moments</p>
-        <h2>Selected photographs</h2>
+        <p class="eyebrow">Get in touch</p>
+        <h2>Let’s make something meaningful.</h2>
+        <p>Tell me a little about what you have in mind, and I’ll be in touch.</p>
       </div>
-      <div class="portfolio-items-wrapper" id="portfolio-items-wrapper" aria-label="Photograph gallery"></div>
-      <p id="loading" class="loading-status" role="status" style="display: none;">Loading photographs…</p>
+      <div class="home-contact-content">
+        <div class="home-contact-image">
+          <img src="/compressed/contact-cover.jpg" alt="A photograph from Vietnam" loading="lazy">
+        </div>
+        <form id="contactForm" class="contact-form">
+        <div class="contact-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" name="name" autocomplete="name" required>
+        </div>
+        <div class="contact-field">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="contact-field contact-field--wide">
+          <label for="enquiryType">Type of enquiry</label>
+          <select id="enquiryType" name="enquiryType">
+            <option value="photography">Photography</option>
+            <option value="collaboration">Collaboration</option>
+            <option value="prints">Prints</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="contact-field">
+          <label for="mobileNumber">Mobile number (optional)</label>
+          <input id="mobileNumber" type="tel" name="mobileNumber" autocomplete="tel">
+        </div>
+        <div class="contact-field">
+          <label for="eventDate">Event date (optional)</label>
+          <input id="eventDate" type="date" name="eventDate">
+        </div>
+        <div class="contact-field">
+          <label for="eventLocation">Event location (optional)</label>
+          <input id="eventLocation" type="text" name="eventLocation" autocomplete="off">
+        </div>
+        <div class="contact-field">
+          <label for="guestNumber">Guest number (optional)</label>
+          <input id="guestNumber" type="number" name="guestNumber" min="1" step="1">
+        </div>
+        <div class="contact-field contact-field--wide">
+          <label for="eventTheme">Theme of event (optional)</label>
+          <input id="eventTheme" type="text" name="eventTheme">
+        </div>
+        <div class="contact-field contact-field--wide">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit">Send enquiry</button>
+        <p class="contact-form-status contact-field--wide" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </section>
   </main>
 
+  <script src="/js/contact.js" defer></script>
   <script type="module" src="/js/albums.js"></script>
-  <script type="module">
-    const photosPerLoad = 9;
-    let curIndex = 0;
-    let loading = false;
-    let allPhotos = [];
-    let loadFailed = false;
-
-    async function loadMorePhotos() {
-      if (loading || (curIndex >= allPhotos.length && allPhotos.length > 0)) return;
-      loading = true;
-      const status = document.getElementById('loading');
-      status.textContent = 'Loading photographs…';
-      status.style.display = 'block';
-      loadFailed = false;
-
-      try {
-        if (allPhotos.length === 0) {
-          const response = await fetch('/api/photographyWebsite');
-          if (!response.ok) throw new Error(`Photograph request failed: ${response.status}`);
-          const data = await response.json();
-          allPhotos = Array.from(data.values());
-        }
-
-        const gallery = document.getElementById('portfolio-items-wrapper');
-        const end = Math.min(curIndex + photosPerLoad, allPhotos.length);
-
-        for (let i = curIndex; i < end; i++) {
-          const item = document.createElement('figure');
-          item.className = 'portfolio-item-wrapper';
-          const lightboxLink = document.createElement('a');
-          lightboxLink.className = 'lightbox-link';
-          lightboxLink.href = allPhotos[i].url;
-          lightboxLink.setAttribute('data-lightbox', 'gallery');
-          lightboxLink.setAttribute('aria-label', `Open photograph ${i + 1}`);
-
-          const image = document.createElement('img');
-          image.className = 'portfolio-img-background';
-          image.src = allPhotos[i].url;
-          image.alt = `Photograph ${i + 1}`;
-          image.loading = 'lazy';
-          lightboxLink.appendChild(image);
-          item.appendChild(lightboxLink);
-          gallery.appendChild(item);
-        }
-
-        curIndex = end;
-        if (typeof Lightbox3 !== 'undefined') Lightbox3.Lightbox.init();
-      } catch (error) {
-        console.error('Unable to load photographs:', error);
-        status.textContent = 'Photographs could not be loaded. Scroll to try again.';
-        loadFailed = true;
-      } finally {
-        if (!loadFailed && curIndex >= allPhotos.length) {
-          window.removeEventListener('scroll', handleScroll);
-        }
-        status.style.display = loadFailed ? 'block' : 'none';
-        loading = false;
-      }
-    }
-
-    function handleScroll() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) loadMorePhotos();
-    }
-
-    loadMorePhotos();
-    window.addEventListener('scroll', handleScroll);
-  </script>
+  <section class="instagram-section" aria-labelledby="instagram-heading">
+    <div class="instagram-heading">
+      <div>
+        <p class="eyebrow">On Instagram</p>
+        <h2 id="instagram-heading">More moments</h2>
+      </div>
+      <a href="https://www.instagram.com/justinluigi_/" target="_blank" rel="noopener noreferrer">Follow @justinluigi_</a>
+    </div>
+    <div class="instagram-feed-shell">
+      <div class="sk-instagram-feed" data-embed-id="25723425"></div>
+    </div>
+  </section>
+  <script src="https://widgets.sociablekit.com/instagram-feed/widget.js" defer></script>
+  <footer class="site-footer">
+    <p>Justin Lu Photography</p>
+    <nav aria-label="Footer navigation">
+      <a href="/index.html#albums">Gallery</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </footer>
 </body>
 </html>
