@@ -128,6 +128,9 @@ export default async function handler(req, res) {
                     category: typeof metadata.category === 'string'
                         ? metadata.category.trim().toLowerCase()
                         : '',
+                    description: typeof metadata.description === 'string'
+                        ? metadata.description.trim()
+                        : '',
                     coverUrl: cover.url
                 };
             }));

@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Photo albums by Justin Lu.">
+  <meta name="author" content="Justin Lu">
   <title>Justin Lu Photography</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://use.typekit.net/mai4fgw.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/codrops-content-layout-transition.css">
+  <link rel="stylesheet" href="/css/home-layout.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.10.4/index.js",
+        "gsap/Flip": "https://cdn.jsdelivr.net/npm/gsap@3.10.4/Flip.js",
+        "gsap/Observer": "https://cdn.jsdelivr.net/npm/gsap@3.10.4/Observer.js"
+      }
+    }
+  </script>
+  <script>
+    document.documentElement.className = "js";
+  </script>
   <script>
     (function () {
       const config = {
@@ -36,121 +48,56 @@
     })();
   </script>
 </head>
-<body class="home-page">
-  <div id="nav"></div>
-  <script>
-    fetch('/nav.html')
-      .then(response => {
-        if (!response.ok) throw new Error(`Navigation request failed: ${response.status}`);
-        return response.text();
-      })
-      .then(html => {
-        document.getElementById('nav').innerHTML = html;
-      })
-      .catch(error => console.error('Unable to load navigation:', error));
-  </script>
-
+<body class="demo-1 home-page loading">
   <main>
-    <section class="hero" aria-label="Justin Lu Photography">
-      <div class="hero-copy">
-        <p class="hero-kicker">Photography by Justin Lu</p>
-        <h1>Moments<br>in passing.</h1>
-      </div>
-      <a class="scroll-cue" href="#albums" aria-label="Scroll to photo albums">
-        <span>Discover</span>
-        <span class="scroll-arrow" aria-hidden="true">↓</span>
+    <div class="frame">
+      <a class="frame__logo" href="#albums" aria-label="Justin Lu Photography, back to album collection">
+        <h2 class="frame__logo-title">Justin Lu</h2>
+        <span class="frame__logo-subtitle">Photography</span>
       </a>
-    </section>
+      <nav class="frame__title" aria-label="Main navigation">
+        <a href="/travel.html">Travel</a>
+        <a href="/event.html">Events</a>
+        <a href="/portrait.html">Portraits</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/about.html">About</a>
+        <a href="https://www.instagram.com/justinluigi_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </nav>
+    </div>
 
-    <section class="album-section" id="albums">
-      <div class="gallery-heading">
-        <p class="eyebrow">Stories from the road</p>
-        <h2>Photo albums</h2>
-      </div>
-      <div class="album-items-wrapper" id="album-items-wrapper" aria-label="Photo albums"></div>
-      <p id="album-status" class="loading-status" role="status">Loading albums…</p>
-    </section>
+    <div class="content" aria-label="Album details">
+      <div id="album-content"></div>
+      <button class="content__back unbutton" type="button" aria-label="Back to album stack">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.4939 20.5644C11.1821 20.8372 10.7083 20.8056 10.4356 20.4939L3.43557 12.4939C3.18814 12.2111 3.18814 11.7889 3.43557 11.5061L10.4356 3.50613C10.7083 3.1944 11.1822 3.16281 11.4939 3.43557C11.8056 3.70834 11.8372 4.18216 11.5644 4.49388L5.65283 11.25L20 11.25C20.4142 11.25 20.75 11.5858 20.75 12C20.75 12.4142 20.4142 12.75 20 12.75L5.65283 12.75L11.5644 19.5061C11.8372 19.8179 11.8056 20.2917 11.4939 20.5644Z"/>
+        </svg>
+        <span class="oh__inner">Back</span>
+      </button>
+      <nav class="content__nav-wrap" aria-label="Album slideshow navigation">
+        <button class="content__nav content__nav--prev unbutton" type="button" aria-label="Previous album">
+          <svg aria-hidden="true" width="100" height="267" viewBox="0 0 100 267"><path d="M49.894 2.766v262.979" stroke-linecap="square"/><path fill="none" d="M99.75 76.596C73.902 76.596 52.62 43.07 49.895 0 47.168 43.07 25.886 76.596.036 76.596"/></svg>
+        </button>
+        <button class="content__nav content__nav--next unbutton" type="button" aria-label="Next album">
+          <svg aria-hidden="true" width="100" height="267" viewBox="0 0 100 267"><path d="M49.894 2.766v262.979" stroke-linecap="square"/><path fill="none" d="M99.75 76.596C73.902 76.596 52.62 43.07 49.895 0 47.168 43.07 25.886 76.596.036 76.596"/></svg>
+        </button>
+      </nav>
+    </div>
 
-    <section class="home-contact-section" id="contact">
-      <div class="gallery-heading">
-        <p class="eyebrow">Get in touch</p>
-        <h2>Let’s make something meaningful.</h2>
-        <p>Tell me a little about what you have in mind, and I’ll be in touch.</p>
+    <div class="slides"></div>
+    <div class="stack-wrap" id="albums">
+      <div class="stack" id="album-stack" aria-label="Photo albums">
+        <div class="stack__item stack__item--empty" aria-hidden="true"></div>
+        <div class="stack__item stack__item--empty" aria-hidden="true"></div>
       </div>
-      <div class="home-contact-content">
-        <div class="home-contact-image">
-          <img src="/compressed/contact-cover.jpg" alt="A photograph from Vietnam" loading="lazy">
-        </div>
-        <form id="contactForm" class="contact-form">
-        <div class="contact-field">
-          <label for="name">Name</label>
-          <input id="name" type="text" name="name" autocomplete="name" required>
-        </div>
-        <div class="contact-field">
-          <label for="email">Email</label>
-          <input id="email" type="email" name="email" autocomplete="email" required>
-        </div>
-        <div class="contact-field contact-field--wide">
-          <label for="enquiryType">Type of enquiry</label>
-          <select id="enquiryType" name="enquiryType">
-            <option value="photography">Photography</option>
-            <option value="collaboration">Collaboration</option>
-            <option value="prints">Prints</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="contact-field">
-          <label for="mobileNumber">Mobile number (optional)</label>
-          <input id="mobileNumber" type="tel" name="mobileNumber" autocomplete="tel">
-        </div>
-        <div class="contact-field">
-          <label for="eventDate">Event date (optional)</label>
-          <input id="eventDate" type="date" name="eventDate">
-        </div>
-        <div class="contact-field">
-          <label for="eventLocation">Event location (optional)</label>
-          <input id="eventLocation" type="text" name="eventLocation" autocomplete="off">
-        </div>
-        <div class="contact-field">
-          <label for="guestNumber">Guest number (optional)</label>
-          <input id="guestNumber" type="number" name="guestNumber" min="1" step="1">
-        </div>
-        <div class="contact-field contact-field--wide">
-          <label for="eventTheme">Theme of event (optional)</label>
-          <input id="eventTheme" type="text" name="eventTheme">
-        </div>
-        <div class="contact-field contact-field--wide">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-        </div>
-        <button type="submit">Send enquiry</button>
-        <p class="contact-form-status contact-field--wide" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
+      <p class="album-load-status" id="album-status" role="status" aria-live="polite"></p>
+    </div>
+    <div class="title">
+      <h1 class="title__main oh"><span class="oh__inner">Photography</span></h1>
+      <span class="title__sub oh"><span class="oh__inner">Travel · Events · Portraits</span></span>
+    </div>
   </main>
 
-  <script src="/js/contact.js" defer></script>
-  <script type="module" src="/js/albums.js"></script>
-  <section class="instagram-section" aria-labelledby="instagram-heading">
-    <div class="instagram-heading">
-      <div>
-        <p class="eyebrow">On Instagram</p>
-        <h2 id="instagram-heading">More moments</h2>
-      </div>
-      <a href="https://www.instagram.com/justinluigi_/" target="_blank" rel="noopener noreferrer">Follow @justinluigi_</a>
-    </div>
-    <div class="instagram-feed-shell">
-      <div class="sk-instagram-feed" data-embed-id="25723425"></div>
-    </div>
-  </section>
-  <script src="https://widgets.sociablekit.com/instagram-feed/widget.js" defer></script>
-  <footer class="site-footer">
-    <p>Justin Lu Photography</p>
-    <nav aria-label="Footer navigation">
-      <a href="/index.html#albums">Gallery</a>
-      <a href="/contact.html">Contact</a>
-    </nav>
-  </footer>
+  <script type="module" src="/js/index.js"></script>
 </body>
 </html>
